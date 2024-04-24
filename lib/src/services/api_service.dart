@@ -6,6 +6,7 @@ class ApiService {
   final Dio _dio = Dio();
 
   Future<Response> verifyMpin(String mpin) async {
+    print(mpin);
     try {
       return await _dio.post(
         '${BaseUrl.baseUrl}${Endpoint.verifyMpin.value}',

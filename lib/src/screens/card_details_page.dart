@@ -14,16 +14,16 @@ enum ApiStatus {
   failure,
 }
 
-enum UserCardDetails {
-  userName,
-  cardNumber,
-  isPinSetUp,
-  cardType,
-  networkType,
-  status,
-  cardBalance,
-  cardCvv,
-}
+// enum UserCardDetails {
+//   userName,
+//   cardNumber,
+//   isPinSetUp,
+//   cardType,
+//   networkType,
+//   status,
+//   cardBalance,
+//   cardCvv,
+// }
 
 class CardDetailsPage extends StatefulWidget {
   const CardDetailsPage({super.key});
@@ -42,8 +42,16 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
   ValueNotifier<bool> showCvvNotifier = ValueNotifier<bool>(false);
 
   final ApiService apiService = ApiService();
-  Map<UserCardDetails, String> cardDetails = {};
+  //Map<UserCardDetails, String> cardDetails = {};
 
+  late String userName;
+  late String cardNumber;
+  late String isPinSetUp;
+  late String cardType;
+  late String networkType;
+  late String status;
+  late String cardBalance;
+  late String cardCvv;
   late String kitNumber;
   late String userDob;
   late String expiryDate;
@@ -76,18 +84,26 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
       Map<String, dynamic> data = response.data;
 
       if(data['status'] == "success" && data['data'] != null){
+        Map<String, dynamic> userDetails = data['data'];
+
         setState(() {
-          kitNumber = data['kitNo'];
-          userDob = data['dob'];
-          expiryDate = data['cardExpiry'];
-          cardDetails = {
-            UserCardDetails.userName: data['name'],
-            UserCardDetails.cardNumber: data['cardNo'],
-            UserCardDetails.isPinSetUp: data['isPinSetup'].toString(),
-            UserCardDetails.cardType: data['cardType'],
-            UserCardDetails.networkType: data['networkType'],
-            UserCardDetails.status: data['status'],
-          };
+          userName = userDetails['name'];
+          //   UserCardDetails.cardNumber: userDetails['cardNo'],
+          //   UserCardDetails.isPinSetUp: userDetails['isPinSetup'].toString(),
+          //   UserCardDetails.cardType: userDetails['cardType'],
+          //   UserCardDetails.networkType: userDetails['networkType'],
+          //   UserCardDetails.status: userDetails['status'],
+          kitNumber = userDetails['kitNo'];
+          userDob = userDetails['dob'];
+          expiryDate = userDetails['cardExpiry'];
+          // cardDetails = {
+          //   UserCardDetails.userName: userDetails['name'],
+          //   UserCardDetails.cardNumber: userDetails['cardNo'],
+          //   UserCardDetails.isPinSetUp: userDetails['isPinSetup'].toString(),
+          //   UserCardDetails.cardType: userDetails['cardType'],
+          //   UserCardDetails.networkType: userDetails['networkType'],
+          //   UserCardDetails.status: userDetails['status'],
+          // };
         });
       }else{
         setState(() {
@@ -286,6 +302,7 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
   }
 
   Widget _buildCardDetailsSuccessView(){
+
     String? cardBalance = cardDetails[UserCardDetails.cardBalance];
     String? cardNumber = cardDetails[UserCardDetails.cardNumber];
     String? cardCvv = cardDetails[UserCardDetails.cardCvv];
@@ -328,9 +345,10 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    maskCardNumber(cardNumber!),
-                    style: const TextStyle(
+                  const Text(
+                    //maskCardNumber(cardNumber!),
+                    "1234",
+                    style: TextStyle(
                       fontFamily: 'primaryFont',
                       fontSize: 14,
                       color: Colors.white,
@@ -578,6 +596,7 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
   @override
   Widget build(BuildContext context) {
     String? userName = cardDetails[UserCardDetails.userName];
+    print(userName);
 
     return Scaffold(
       body: SafeArea(
