@@ -6,14 +6,14 @@ class ApiService {
   final Dio _dio = Dio();
 
   Future<Response> verifyMpin(String mpin) async {
-    print(mpin);
+    print("mpin received");
     try {
       return await _dio.post(
         '${BaseUrl.baseUrl}${Endpoint.verifyMpin.value}',
         data: {'mobileNumber': '+919700000001','pin':mpin},
       );
     } catch (e) {
-      throw Exception('Failed to get card details: $e');
+      throw Exception('Failed to verify user: $e');
     }
   }
 

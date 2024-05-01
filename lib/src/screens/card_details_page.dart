@@ -14,16 +14,16 @@ enum ApiStatus {
   failure,
 }
 
-// enum UserCardDetails {
-//   userName,
-//   cardNumber,
-//   isPinSetUp,
-//   cardType,
-//   networkType,
-//   status,
-//   cardBalance,
-//   cardCvv,
-// }
+enum UserCardDetails {
+  userName,
+  cardNumber,
+  isPinSetUp,
+  cardType,
+  networkType,
+  status,
+  cardBalance,
+  cardCvv,
+}
 
 class CardDetailsPage extends StatefulWidget {
   const CardDetailsPage({super.key});
@@ -42,7 +42,7 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
   ValueNotifier<bool> showCvvNotifier = ValueNotifier<bool>(false);
 
   final ApiService apiService = ApiService();
-  //Map<UserCardDetails, String> cardDetails = {};
+  Map<UserCardDetails, String> cardDetails = {};
 
   late String userName;
   late String cardNumber;
@@ -87,12 +87,11 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
         Map<String, dynamic> userDetails = data['data'];
 
         setState(() {
-          userName = userDetails['name'];
-          //   UserCardDetails.cardNumber: userDetails['cardNo'],
-          //   UserCardDetails.isPinSetUp: userDetails['isPinSetup'].toString(),
-          //   UserCardDetails.cardType: userDetails['cardType'],
-          //   UserCardDetails.networkType: userDetails['networkType'],
-          //   UserCardDetails.status: userDetails['status'],
+          // UserCardDetails.cardNumber: userDetails['cardNo'],
+          // UserCardDetails.isPinSetUp: userDetails['isPinSetup'].toString(),
+          // UserCardDetails.cardType: userDetails['cardType'],
+          // UserCardDetails.networkType: userDetails['networkType'],
+          // UserCardDetails.status: userDetails['status'],
           kitNumber = userDetails['kitNo'];
           userDob = userDetails['dob'];
           expiryDate = userDetails['cardExpiry'];

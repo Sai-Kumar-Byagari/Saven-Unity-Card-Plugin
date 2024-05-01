@@ -29,10 +29,12 @@ class _MPinLoginPageState extends State<MPinLoginPage> {
 
   Future<void> _login() async {
     String mpin = pinDigits.join();
+    print(mpin);
 
     final response = await apiService.verifyMpin(mpin);
 
     Map<String, dynamic> data = response.data;
+    print(data);
 
     if (data['status'] == 'success') {
       if (data['data'] != null && data['data']['status'] == true &&
@@ -61,8 +63,7 @@ class _MPinLoginPageState extends State<MPinLoginPage> {
           );
         }
       }
-    } else if (data['status'] == 'error' &&
-        data['error']['message'] == 'invalid credentials') {
+    } else if (data['status'] == 'error' &&  data['error']['message'] == 'invalid credentials') {
       setState(() {
         showInvalidPinText = true;
         pinDigits.fillRange(0, pinDigits.length, null);
