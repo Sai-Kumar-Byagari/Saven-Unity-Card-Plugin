@@ -14,16 +14,16 @@ enum ApiStatus {
   failure,
 }
 
-enum UserCardDetails {
-  userName,
-  cardNumber,
-  isPinSetUp,
-  cardType,
-  networkType,
-  status,
-  cardBalance,
-  cardCvv,
-}
+// enum UserCardDetails {
+//   userName,
+//   cardNumber,
+//   isPinSetUp,
+//   cardType,
+//   networkType,
+//   status,
+//   cardBalance,
+//   cardCvv,
+// }
 
 class CardDetailsPage extends StatefulWidget {
   const CardDetailsPage({super.key});
@@ -42,19 +42,19 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
   ValueNotifier<bool> showCvvNotifier = ValueNotifier<bool>(false);
 
   final ApiService apiService = ApiService();
-  Map<UserCardDetails, String> cardDetails = {};
+  //Map<UserCardDetails, String> cardDetails = {};
 
-  late String userName;
-  late String cardNumber;
-  late String isPinSetUp;
-  late String cardType;
-  late String networkType;
-  late String status;
-  late String cardBalance;
-  late String cardCvv;
-  late String kitNumber;
-  late String userDob;
-  late String expiryDate;
+  String userName = "***";
+  String cardNumber = "";
+  bool isPinSetUp = false;
+  String cardType = "";
+  String networkType = "";
+  String status = "";
+  String cardBalance = "";
+  String cardCvv = "";
+  String kitNumber = "";
+  String userDob = "";
+  String expiryDate = "";
 
   String maskCardNumber(String cardNumber){
     if (cardNumber.length == 16) {
@@ -85,6 +85,7 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
 
       if(data['status'] == "success" && data['data'] != null){
         Map<String, dynamic> userDetails = data['data'];
+        print(userDetails['name']);
 
         setState(() {
           // UserCardDetails.cardNumber: userDetails['cardNo'],
@@ -92,6 +93,8 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
           // UserCardDetails.cardType: userDetails['cardType'],
           // UserCardDetails.networkType: userDetails['networkType'],
           // UserCardDetails.status: userDetails['status'],
+          userName = userDetails['name'];
+          cardNumber =  userDetails['cardNo'];
           kitNumber = userDetails['kitNo'];
           userDob = userDetails['dob'];
           expiryDate = userDetails['cardExpiry'];
@@ -127,9 +130,10 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
 
       if(data['status'] == "success" && data['data'] != null){
         setState(() {
-          cardDetails = {
-            UserCardDetails.cardBalance: data['data'][0]['balance'].toString(),
-          };
+          cardBalance = data['data'][0]['balance'];
+          // cardDetails = {
+          //   UserCardDetails.cardBalance: data['data'][0]['balance'].toString(),
+          // };
           cardDetailsApiStatus = ApiStatus.success;
         });
       }else{
@@ -151,9 +155,9 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
 
       if(data['status'] == "success" && data['data'] != null) {
         setState(() {
-          cardDetails = {
-            UserCardDetails.cardCvv: data['data']['cvv'].toString(),
-          };
+          // cardDetails = {
+          //   UserCardDetails.cardCvv: data['data']['cvv'].toString(),
+          // };
           cardDetailsApiStatus = ApiStatus.success;
         });
       }
@@ -262,14 +266,14 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                     color: Colors.black,
                   ),
                 ),
-                Text(
-                  "\u20B9 4.75",
-                  style: TextStyle(
-                    fontFamily: 'primaryFont',
-                    fontSize: 12,
-                    color: transactionIconColor,
-                  ),
-                ),
+                // Text(
+                //   "\u20B9 4.75",
+                //   style: TextStyle(
+                //     fontFamily: 'primaryFont',
+                //     fontSize: 12,
+                //     color: transactionIconColor,
+                //   ),
+                // ),
               ],
             ),
           ],
@@ -302,10 +306,10 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
 
   Widget _buildCardDetailsSuccessView(){
 
-    String? cardBalance = cardDetails[UserCardDetails.cardBalance];
-    String? cardNumber = cardDetails[UserCardDetails.cardNumber];
-    String? cardCvv = cardDetails[UserCardDetails.cardCvv];
-    String? networkType = cardDetails[UserCardDetails.networkType];
+    // String? cardBalance = cardDetails[UserCardDetails.cardBalance];
+    // String? cardNumber = cardDetails[UserCardDetails.cardNumber];
+    // String? cardCvv = cardDetails[UserCardDetails.cardCvv];
+    // String? networkType = cardDetails[UserCardDetails.networkType];
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(22, 16, 18, 16),
@@ -344,10 +348,10 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     //maskCardNumber(cardNumber!),
-                    "1234",
-                    style: TextStyle(
+                    cardNumber,
+                    style: const TextStyle(
                       fontFamily: 'primaryFont',
                       fontSize: 14,
                       color: Colors.white,
@@ -400,7 +404,7 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                 width: 90,
                 height: 25,
                 child: Image.asset(
-                  'assets/images/$networkType.png',
+                  'packages/flutter_sdk_saven_unity_card/assets/images/VISA.png',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -594,8 +598,8 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    String? userName = cardDetails[UserCardDetails.userName];
-    print(userName);
+    // String? userName = cardDetails[UserCardDetails.userName];
+    //print(userName);
 
     return Scaffold(
       body: SafeArea(
@@ -636,7 +640,8 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            userName != null && userName.isNotEmpty ? userName : "***",
+                            userName,
+                            //userName != null && userName.isNotEmpty ? userName : "***",
                             style: const TextStyle(
                               fontFamily: 'primaryFont',
                               fontSize: 16,
